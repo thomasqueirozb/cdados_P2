@@ -1,5 +1,6 @@
 from xlrd import open_workbook
-wb = open_workbook('tweets_Spider Man_201809092305.xlsx')
+
+wb = open_workbook('tweets_spiderman_201809101957.xlsx')
 
 from collections import defaultdict as ddict
 
@@ -8,6 +9,7 @@ teste=ddict(int)
 
 dicts=[treinamento,teste]
 
+# Ler tudo
 for sheet,d in zip(wb.sheets(),dicts):
     values = []
     for row in range(sheet.nrows):
@@ -20,18 +22,22 @@ for sheet,d in zip(wb.sheets(),dicts):
         d[col_value[0]]+=1
 
 
-import xlsxwriter
-
+# Organizar
 for index in range(len(dicts)):
     l=[[i,dicts[index][i]] for i in dicts[index]]
     l=sorted(l, key = lambda x: int(x[1]))
     dicts[index]={item[0]:item[1] for item in l}
 
 
-file_name="spiderman_org.xlsx"
+
+import xlsxwriter
+
+# Criar o excel
+file_name="spiderman_org2.xlsx"
 workbook = xlsxwriter.Workbook(file_name)
 
 
+# Formatação bold + caixa
 cell_format = workbook.add_format()
 
 cell_format.set_bold()
@@ -39,10 +45,12 @@ cell_format.set_center_across()
 cell_format.set_border()
 
 
+
 for sheet,d in zip(wb.sheets(),dicts):
     worksheet = workbook.add_worksheet(sheet.name)
     x=0
     for val in d:
+        # Escrever no excel o item com o número de vezes que apareceu
         for i in range(d[val]):
             worksheet.write(x,0,val)
             x+=1
