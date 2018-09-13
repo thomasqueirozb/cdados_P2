@@ -56,5 +56,4 @@ for sheet,d in zip(wb.sheets(),dicts):
             x+=1
 
     worksheet.write(0,0,list(d.keys())[0],cell_format)
-
 workbook.close()
